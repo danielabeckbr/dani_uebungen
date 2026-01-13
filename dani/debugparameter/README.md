@@ -1,7 +1,10 @@
-# Getting Started with Create React App
-
 Anwendung starten:
 
+<<<<<<< HEAD
+Anwendung starten:
+
+=======
+>>>>>>> f66ea0156437f996ddbe36ef16f904d8b0668786
 Erst den Server starten: 
 Ins Verzeichnis /home/danielab/dani_uebungen/dani/server/ wechseln
 node index.ts ausführen
@@ -9,7 +12,10 @@ node index.ts ausführen
 Dann die react-App starten: 
 Ins Verzeichnis  /home/danielab/dani_uebungen/dani/debugparameter/ wechseln
 npm start ausführen
+<<<<<<< HEAD
 
+=======
+>>>>>>> f66ea0156437f996ddbe36ef16f904d8b0668786
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
