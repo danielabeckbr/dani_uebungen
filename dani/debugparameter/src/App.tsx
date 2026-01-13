@@ -10,7 +10,16 @@ interface ApiResponse {
 
 
 
+
+
+
+
+
+
 const App: React.FC = () => {
+    const [Statusmeldungen, setStatusmeldungen] = useState<boolean>(false);
+    const [Fehlermeldungen, setFehlermeldungen] = useState<boolean>(false);
+    const [Serverstatus, setServerstatus] = useState<boolean>(false);
     const [data, setData] = useState<ApiResponse[] | null>(null);
     /*
   data ist ein array, weil das ursprüngliche json vom server als array gesendet wird (es steht in [])
@@ -101,15 +110,40 @@ const App: React.FC = () => {
 
     return (
         <div>
-            <h1>Statusmeldungen</h1>
-            <div>{renderDebugScopeByKeys(allowedKeysStatus)}</div>
-            <h1>Fehlermeldungen</h1>
-            <div>{renderDebugScopeByKeys(allowedKeysFehler)}</div>
+            <br></br>
+            <div></div>
+            <div>
+                <button onClick={() => setStatusmeldungen(!Statusmeldungen)}>
+                    Statusmeldungen anzeigen
+                </button>
+                {Statusmeldungen && <p>
+                    <h2>Statusmeldungen</h2>
+                    {renderDebugScopeByKeys(allowedKeysStatus)}
+                </p>}
+            </div>
+            <br></br>
+            <div>
+                <button onClick={() => setFehlermeldungen(!Fehlermeldungen)}>
+                    Fehlermeldungen anzeigen
+                </button>
+                {Fehlermeldungen && <p>
+                    <h2>Fehlermeldungen</h2>
+                    {renderDebugScopeByKeys(allowedKeysFehler)}
+                </p>}
+            </div>
+            <br></br>
+            <div>
+                <button onClick={() => setServerstatus(!Serverstatus)}>
+                    Serverstatus anzeigen
+                </button>
+                {Serverstatus && <p>
+                    <h3>Zustand auf dem Server:</h3>
+                    <pre>{JSON.stringify(debugScope, null, 2)}</pre>
+                </p>}
+            </div>
 
+            <br></br>
 
-
-            <h3>Zustand auf dem Server:</h3>
-            <pre>{JSON.stringify(debugScope, null, 2)}</pre>
             <button
                 onClick={async () => {
                     await fetch("http://localhost:1080/testdaten", {
