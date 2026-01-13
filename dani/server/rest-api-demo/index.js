@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors')
 const app = express();
+app.use(express.json());
 
 const PORT = 1080;
 app.use(cors());
@@ -2682,6 +2683,19 @@ app.get("/testdaten", (req, res) => {
 });
 
 
+app.post("/testdaten", (req, res) => {
+    const { debugScope } = req.body;
+
+    if (!debugScope) {
+        return res.status(400).json({ error: "debugScope fehlt" });
+    }
+
+    posts[0].global.debugScope = debugScope;
+
+    console.log("Neuer debugScope:", posts[0].global.debugScope);
+
+    res.json({ status: "ok" });
+});
 
 app.listen(PORT, () => {
 
