@@ -4,6 +4,18 @@ import express from "express";
 import type { Request, Response } from "express";
 import cors from 'cors'; // 1. Importiere das CORS-Paket
 
+
+// Definition des Person-Typs
+interface Person {
+  name: string;
+  age: number;
+}
+
+// Unser temporärer Datenspeicher
+const people: Person[] = [
+  { name: "Max Mustermann", age: 25 }
+];
+
 // Initialize the express engine
 const app: express.Application = express();
 
@@ -53,6 +65,23 @@ app.get('/daten-empfangen', (req: Request<{}, {}, {}, MyQueryParams>, res: Respo
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
   console.log(`Zum Testen im Browser aufrufen: http://localhost:${port}/daten-empfangen?name=Anna&alter=25`);
+})
+
+app.post('/people', (req: Request, res: Response) => {
+  const { name, age } = req.body;
+
+  // Einfache Validierung
+  if (!name || typeof age !== 'number') {
+    return res.status(400).json({ error: "Name und Alter (Zahl) sind erforderlich." });
+  }
+
+  const newPerson: Person = { name, age };
+  people.push(newPerson);
+
+  res.status(201).json({
+    message: "Person erfolgreich hinzugefügt",
+    person: newPerson
+  });
 })
 
 /*

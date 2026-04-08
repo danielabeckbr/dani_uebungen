@@ -5,6 +5,7 @@ import type { FormEvent } from 'react';
 // Die URL deines Service bbb
 const SERVICE_URL = 'http://localhost:3005/daten-empfangen';
 
+
 const DataForm: React.FC = () => {
   // 1. State für die Formulardaten
   const [name, setName] = useState<string>('');
@@ -82,6 +83,23 @@ const DataForm: React.FC = () => {
     }
   };
 
+  // VARIANTE 1: POST (Senden im Body)
+  const sendViaPost = async () => {
+    if (!name || alter === '') return;
+    await fetch(`${SERVICE_URL}/people`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, age: Number(age) }),
+    })
+  }
+
+  // VARIANTE 2: GET (Senden in der URL)
+  const sendViaGet = async () => {
+    if (!name || alter === '') return;
+    // Wir hängen die Daten als Query-String an: ?name=XYZ&age=123
+    await fetch(`${SERVICE_URL}/add-get?name=${encodeURIComponent(name)}&age=${age}`)
+  }
+
   // 6. Das UI der Komponente
   return (
     <div>
@@ -118,6 +136,17 @@ const DataForm: React.FC = () => {
         >
           {isLoading ? 'Sende Daten...' : 'Speichern (Save Button)'}
         </button>
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+        <button onClick={sendViaPost} style={{ backgroundColor: '#4CAF50', color: 'white' }}>
+          Per POST senden (Standard)
+        </button>
+        
+        <button onClick={sendViaGet} style={{ backgroundColor: '#2196F3', color: 'white' }}>
+          Per GET senden (URL-Parameter)
+        </button>
+      </div>
+
       </form>
 
       {/* 7. Anzeige der Statusmeldung */}
